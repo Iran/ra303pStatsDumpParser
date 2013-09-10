@@ -30,6 +30,24 @@ namespace ra303pStatsDumpParser
         int OreRegenerates = -1;
         int CratesEnabled = -1;
         int NumberOfAIPlayers = -1;
+        int ShroudRegrows = -1;
+        int CTFEnabled = -1;
+        int StartingUnits = -1;
+        int TechLevel = -1;
+        string MapName = "UNPARSED";
+        string IPAddress1 = "UNPARSED";
+        string IPAddress2 = "UNPARSED";
+        string Ping = "UNPARSED";
+        int CompletionType = -1;
+        int GameDuration = -1;
+        int StartTime = -1;
+        int ProcessorType = -1;
+        int AverageFPS = -1;
+        uint SystemMemory = 0;
+        uint VideoMemory = 0;
+        int GameSpeed = -1;
+        string Version = "UNPARSED";
+
 
         public StatsDumpParser(string FileName)
         {
@@ -130,8 +148,88 @@ namespace ra303pStatsDumpParser
                     }
                     else if (ID == "AIPL")
                     {
-                        this.CratesEnabled = this.Read_32Bits();
+                        Read_Garbage();
+                        this.NumberOfAIPlayers = this.Read_32Bits();
                     }
+                    else if (ID == "SHAD")
+                    {
+                        this.ShroudRegrows = this.Read_ON_Or_OFF();
+                    }
+                    else if (ID == "FLAG")
+                    {
+                        this.CTFEnabled = this.Read_ON_Or_OFF();
+                    }
+                    else if (ID == "UNIT")
+                    {
+                        Read_Garbage();
+                        this.StartingUnits = this.Read_32Bits();
+                    }
+                    else if (ID == "TECH")
+                    {
+                        Read_Garbage();
+                        this.TechLevel = this.Read_32Bits();
+                    }
+                    else if (ID == "SCEN")
+                    {
+                        this.MapName = this.Parse_String();
+                    }
+                    else if (ID == "ADR1")
+                    {
+                        this.IPAddress1 = this.Parse_String();
+                    }
+                    else if (ID == "ADR2")
+                    {
+                        this.IPAddress2 = this.Parse_String();
+                    }
+                    else if (ID == "PING")
+                    {
+                        this.Ping = this.Parse_String();
+                    }
+                    else if (ID == "CMPL")
+                    {
+                        Read_Garbage();
+                        this.CompletionType = this.Read_Byte();
+                    }
+                    else if (ID == "TIME")
+                    {
+                        Read_Garbage();
+                        this.StartTime = this.Read_32Bits();
+                    }
+                    else if (ID == "DURA")
+                    {
+                        Read_Garbage();
+                        this.GameDuration = this.Read_32Bits();
+                    }
+                    else if (ID == "AFPS")
+                    {
+                        Read_Garbage();
+                        this.AverageFPS = this.Read_32Bits();
+                    }
+                    else if (ID == "PROC")
+                    {
+                        Read_Garbage();
+                        this.ProcessorType = this.Read_Byte();
+                    }
+                    else if (ID == "MEMO")
+                    {
+                        Read_Garbage();
+                        this.SystemMemory = (uint)this.Read_32Bits();
+                    }
+                    else if (ID == "VIDM")
+                    {
+                        Read_Garbage();
+                        this.VideoMemory = (uint)this.Read_32Bits();
+                    }
+                    else if (ID == "SPED")
+                    {
+                        Read_Garbage();
+                        this.GameSpeed = this.Read_Byte();
+                    }
+                    else if (ID == "VERS")
+                    {
+                        this.Version = this.Parse_Version();
+                    }
+                    
                 }
             }
         }
@@ -150,6 +248,23 @@ namespace ra303pStatsDumpParser
             Console.WriteLine("OreRegenerates = {0}", this.OreRegenerates);
             Console.WriteLine("CratesEnabled = {0}", this.CratesEnabled);
             Console.WriteLine("NumberOfAIPlayers = {0}", this.NumberOfPlayers);
+            Console.WriteLine("ShroudRegrows = {0}", this.ShroudRegrows);
+            Console.WriteLine("CTFEnabled = {0}", this.CTFEnabled);
+            Console.WriteLine("StartingUnits = {0}", this.StartingUnits);
+            Console.WriteLine("TechLevel = {0}", this.TechLevel);
+            Console.WriteLine("MapName = {0}", this.MapName);
+            Console.WriteLine("IPAddress1 = {0}", this.IPAddress1);
+            Console.WriteLine("IPAddress2 = {0}", this.IPAddress2);
+            Console.WriteLine("Ping = {0}", this.Ping);
+            Console.WriteLine("CompletionType = {0}", this.CompletionType);
+            Console.WriteLine("GameDuration = {0}", this.GameDuration);
+            Console.WriteLine("StartTime = {0}", this.StartTime);
+            Console.WriteLine("AverageFPS = {0}", this.AverageFPS);
+            Console.WriteLine("ProcessorType = {0}", this.ProcessorType);
+            Console.WriteLine("SystemMemory = {0}", this.SystemMemory);
+            Console.WriteLine("VideoMemory = {0}", this.VideoMemory);
+            Console.WriteLine("GameSpeed = {0}", this.GameSpeed);
+            Console.WriteLine("Version = {0}", this.Version);
 
             this.Print_Player_Array(this.PlayerMoneyHarvested, "Money harvested for player {0} = {1}");
             this.Print_Player_Array(this.PlayerCredits, "Credits for player {0} = {1}");
@@ -171,6 +286,33 @@ namespace ra303pStatsDumpParser
             CratesCollectedStruct Crates = Parse_Crates_Collected_For_Player();
 
             this.PlayerCratesCollected[PlayerNum - 1] = Crates;
+        }
+
+        public string Parse_String()
+        {
+            byte[] Bytes = Bin.ReadBytes(4);
+            int Length = (int)Bytes[3];
+
+            byte[] StringBytes = Bin.ReadBytes(Length);
+            string RetString = System.Text.Encoding.Default.GetString(StringBytes);
+
+            int AlignRead = 4 - (Length % 4);
+            if (AlignRead == 4) { AlignRead = 0; }
+            Bin.ReadBytes( AlignRead ); // Read for 4 byte alignment
+
+            Console.WriteLine("Length = {0}, AlignRead = {1}", Length, AlignRead);
+            Pos += AlignRead + 4 + Length;
+            return RetString;
+        }
+
+        public string Parse_Version()
+        {
+            Read_Garbage();
+            
+
+            byte[] StringBytes = Bin.ReadBytes(4);
+            string RetString = System.Text.Encoding.Default.GetString(StringBytes);
+            return RetString;
         }
 
         public int Read_32Bits()
