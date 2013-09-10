@@ -1,0 +1,7 @@
+c:\users\maikel\documents\visual studio 2012\Projects\ra303pStatsDumpReader\ra303pStatsDumpReader\bin\Debug\ra303pStatsDumpReader.exe.config
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\bin\Debug\ra303pStatsDumpReader.exe.config
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\bin\Debug\ra303pStatsDumpReader.exe
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\bin\Debug\ra303pStatsDumpReader.pdb
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\obj\Debug\ra303pStatsDumpReader.csprojResolveAssemblyReference.cache
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\obj\Debug\ra303pStatsDumpReader.exe
+C:\Users\Maikel\Desktop\ra303pStatsDumpReader\obj\Debug\ra303pStatsDumpReader.pdb
