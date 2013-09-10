@@ -14,11 +14,14 @@ namespace ra303pStatsDumpParser
         BigEndianReader Bin;
         int Pos;
 
+        int QuitPlayerNumHelper = -1; // To help parse per player QUIT
 
         int DumpSize = -1;
         int ReportedSize = -1;
         int[] PlayerMoneyHarvested;
         int[] PlayerCredits;
+        int[] PlayerQuitStates;
+        string[] PlayerSides;
         CratesCollectedStruct[] PlayerCratesCollected;
         int SDFX = -1;
         int GameNumber = -1;
@@ -53,7 +56,9 @@ namespace ra303pStatsDumpParser
         {
             PlayerMoneyHarvested = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerCredits = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayerQuitStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerCratesCollected = new CratesCollectedStruct[8];
+            PlayerSides = new string[8];
 
             this.Parse_Stats_Dump_File(FileName);   
         }
@@ -83,6 +88,10 @@ namespace ra303pStatsDumpParser
                     Byte[] Bytes = Bin.ReadBytes(4); Pos += 4;
                     string ID = System.Text.Encoding.Default.GetString(Bytes);
 
+                    if (ID.Contains("SID"))
+                    {
+                        Parse_Side_Info(ID);
+                    }
 
                     if ( ID.Contains("HRV") )
                     {
@@ -227,9 +236,12 @@ namespace ra303pStatsDumpParser
                     }
                     else if (ID == "VERS")
                     {
-                        this.Version = this.Parse_Version();
+                        this.Version = this.Parse_Short_String();
                     }
-                    
+                    else if (ID == "QUIT")
+                    {
+                        this.Parse_Quit_State();
+                    }
                 }
             }
         }
@@ -268,6 +280,16 @@ namespace ra303pStatsDumpParser
 
             this.Print_Player_Array(this.PlayerMoneyHarvested, "Money harvested for player {0} = {1}");
             this.Print_Player_Array(this.PlayerCredits, "Credits for player {0} = {1}");
+            this.Print_Player_Array(this.PlayerQuitStates, "Quit state for player {0} = {1}");
+            this.Print_Player_String_Array(this.PlayerSides, "Side for player {0} = {1}");
+        }
+
+        public void Parse_Quit_State()
+        {
+            Read_Garbage();
+            int PlayerNum = this.QuitPlayerNumHelper;
+
+            this.PlayerQuitStates[PlayerNum - 1] = this.Read_Byte();
         }
 
         public void Parse_Credits_Info(string ID)
@@ -305,12 +327,12 @@ namespace ra303pStatsDumpParser
             return RetString;
         }
 
-        public string Parse_Version()
+        public string Parse_Short_String()
         {
             Read_Garbage();
-            
 
-            byte[] StringBytes = Bin.ReadBytes(4);
+
+            byte[] StringBytes = Bin.ReadBytes(4); Pos += 4;
             string RetString = System.Text.Encoding.Default.GetString(StringBytes);
             return RetString;
         }
@@ -347,6 +369,15 @@ namespace ra303pStatsDumpParser
             if (Bytes == (int)0x4F464600) { Ret = 0; }
 
             return Ret;
+        }
+
+        public void Parse_Side_Info(String ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+
+            this.PlayerSides[PlayerNum - 1] = Parse_Short_String();
+
+            this.QuitPlayerNumHelper = PlayerNum; // To help parsing QUIT per player
         }
 
         public CratesCollectedStruct Parse_Crates_Collected_For_Player()
@@ -404,6 +435,18 @@ namespace ra303pStatsDumpParser
             foreach (int Element in Array)
             {
                 if (Element != -1)
+                {
+                    Console.WriteLine(Format, PlayerNumber, Element);
+                }
+                PlayerNumber++;
+            }
+        }
+        public void Print_Player_String_Array(string[] Array, string Format)
+        {
+            int PlayerNumber = 1;
+            foreach (string Element in Array)
+            {
+                if (Element != null)
                 {
                     Console.WriteLine(Format, PlayerNumber, Element);
                 }
