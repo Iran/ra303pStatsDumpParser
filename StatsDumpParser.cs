@@ -120,7 +120,7 @@ namespace ra303pStatsDumpParser
 
         public void Parse_Stats_Dump_File(string FileName)
         {
-            using (BinaryReader b = new BinaryReader(File.Open("stats.dmp", FileMode.Open)))
+            using (BinaryReader b = new BinaryReader(File.Open(FileName, FileMode.Open)))
             {
                 Bin = new BigEndianReader(b);
                 // 2.
