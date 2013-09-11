@@ -408,7 +408,7 @@ namespace ra303pStatsDumpParser
             Console.WriteLine("BasesEnabled = {0}", this.BasesEnabled);
             Console.WriteLine("OreRegenerates = {0}", this.OreRegenerates);
             Console.WriteLine("CratesEnabled = {0}", this.CratesEnabled);
-            Console.WriteLine("NumberOfAIPlayers = {0}", this.NumberOfPlayers);
+            Console.WriteLine("NumberOfAIPlayers = {0}", this.NumberOfAIPlayers);
             Console.WriteLine("ShroudRegrows = {0}", this.ShroudRegrows);
             Console.WriteLine("CTFEnabled = {0}", this.CTFEnabled);
             Console.WriteLine("StartingUnits = {0}", this.StartingUnits);
