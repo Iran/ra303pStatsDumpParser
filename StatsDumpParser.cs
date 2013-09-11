@@ -76,7 +76,7 @@ namespace ra303pStatsDumpParser
         uint VideoMemory = 0;
         int GameSpeed = -1;
         string Version = "UNPARSED";
-        DateTime? GameDateTimeUTC = null; // null is value if not parsed
+        DateTime? GameEXELastWriteTimeUTC = null; // null is value if not parsed
 
 
         public StatsDumpParser(string FileName)
@@ -426,7 +426,7 @@ namespace ra303pStatsDumpParser
             Console.WriteLine("VideoMemory = {0}", this.VideoMemory);
             Console.WriteLine("GameSpeed = {0}", this.GameSpeed);
             Console.WriteLine("Version = {0}", this.Version);
-            Console.WriteLine("GameDateTimeUTC = {0}", this.GameDateTimeUTC.ToString());
+            Console.WriteLine("GameEXELastWriteTimeUTC = {0}", this.GameEXELastWriteTimeUTC.ToString());
 
             this.Print_Player_Array(this.PlayerMoneyHarvested, "Money harvested for player {0} = {1}");
             this.Print_Player_Array(this.PlayerCredits, "Credits for player {0} = {1}");
@@ -452,7 +452,9 @@ namespace ra303pStatsDumpParser
             FTime.dwLowDateTime = this.Read_Unsigned_32Bits();
             FTime.dwHighDateTime = this.Read_Unsigned_32Bits();
 
-            this.GameDateTimeUTC = DateTime.FromFileTimeUtc(FileTime.FileTime_To_Long(FTime));
+            long TimeLong = FileTime.FileTime_To_Long(FTime);
+            this.GameEXELastWriteTimeUTC = DateTime.FromFileTimeUtc(TimeLong);
+
         }
 
         public void Parse_Color_Info(string ID)
@@ -884,22 +886,10 @@ namespace ra303pStatsDumpParser
         public uint dwLowDateTime;
         public uint dwHighDateTime;
 
-        public static long FileTime_To_Long(FileTime fileTime)
+        public static long FileTime_To_Long(FileTime ft)
         {
-            long returnedLong;
-            // Convert 4 high-order bytes to a byte array
-            byte[] highBytes = BitConverter.GetBytes(fileTime.dwHighDateTime);
-            // Resize the array to 8 bytes (for a Long)
-            Array.Resize(ref highBytes, 8);
-
-            // Assign high-order bytes to first 4 bytes of Long
-            returnedLong = BitConverter.ToInt64(highBytes, 0);
-            // Shift high-order bytes into position
-            returnedLong = returnedLong << 32;
-            // Or with low-order bytes
-            returnedLong = returnedLong | fileTime.dwLowDateTime;
-            // Return long 
-            return returnedLong;
+            long hFT2 = (((long)ft.dwHighDateTime) << 32) + ft.dwLowDateTime;
+            return hFT2;
         }
     }
 
