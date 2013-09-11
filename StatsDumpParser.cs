@@ -9,74 +9,74 @@ namespace ra303pStatsDumpParser
     class StatsDumpParser
     {
         // Stream reading stuff
-        BigEndianReader Bin;
-        int Pos;
+        public BigEndianReader Bin;
+        public int Pos;
 
-        int QuitPlayerNumHelper = -1; // To help parse per player QUIT
+        public int QuitPlayerNumHelper = -1; // To help parse per player QUIT
 
-        int DumpSize = -1;
-        int ReportedSize = -1;
-        int[] PlayerMoneyHarvested;
-        int[] PlayerCredits;
-        int[] PlayerQuitStates;
-        int[] PlayerColors;
-        string[] PlayerNames;
-        string[] PlayerSides;
-        CratesCollectedStruct[] PlayerCratesCollected;
+        public int DumpSize = -1;
+        public int ReportedSize = -1;
+        public int[] PlayerMoneyHarvested;
+        public int[] PlayerCredits;
+        public int[] PlayerQuitStates;
+        public int[] PlayerColors;
+        public string[] PlayerNames;
+        public string[] PlayerSides;
+        public CratesCollectedStruct[] PlayerCratesCollected;
 
         // Left on battlefield
-        VehiclesStruct[] PlayerVehiclesLeft;
-        InfantryStruct[] PlayerInfantryLeft;
-        PlanesStruct[] PlayerPlanesLeft;
-        BuildingsStruct[] PlayerBuildingsLeft;
-        VesselsStruct[] PlayerVesselsLeft;
+        public VehiclesStruct[] PlayerVehiclesLeft;
+        public InfantryStruct[] PlayerInfantryLeft;
+        public PlanesStruct[] PlayerPlanesLeft;
+        public BuildingsStruct[] PlayerBuildingsLeft;
+        public VesselsStruct[] PlayerVesselsLeft;
 
         // Bought
-        VehiclesStruct[] PlayerVehiclesBought;
-        InfantryStruct[] PlayerInfantryBought;
-        PlanesStruct[] PlayerPlanesBought;
-        BuildingsStruct[] PlayerBuildingsBought;
-        VesselsStruct[] PlayerVesselsBought;
+        public VehiclesStruct[] PlayerVehiclesBought;
+        public InfantryStruct[] PlayerInfantryBought;
+        public PlanesStruct[] PlayerPlanesBought;
+        public BuildingsStruct[] PlayerBuildingsBought;
+        public VesselsStruct[] PlayerVesselsBought;
 
         // Killed
-        VehiclesStruct[] PlayerVehiclesKilled;
-        InfantryStruct[] PlayerInfantryKilled;
-        PlanesStruct[] PlayerPlanesKilled;
-        BuildingsStruct[] PlayerBuildingsKilled;
-        VesselsStruct[] PlayerVesselsKilled;
+        public VehiclesStruct[] PlayerVehiclesKilled;
+        public InfantryStruct[] PlayerInfantryKilled;
+        public PlanesStruct[] PlayerPlanesKilled;
+        public BuildingsStruct[] PlayerBuildingsKilled;
+        public VesselsStruct[] PlayerVesselsKilled;
 
         // Buildings captured
-        BuildingsStruct[] PlayerBuildingsCaptured;
+        public BuildingsStruct[] PlayerBuildingsCaptured;
 
 
-        int SDFX = -1;
-        int GameNumber = -1;
-        int NumberOfPlayers = -1;
-        int NumberOfRemainingPlayers = -1;
-        int IsTournamentGame = -1;
-        int StartingCredits = -1;
-        int BasesEnabled = -1;
-        int OreRegenerates = -1;
-        int CratesEnabled = -1;
-        int NumberOfAIPlayers = -1;
-        int ShroudRegrows = -1;
-        int CTFEnabled = -1;
-        int StartingUnits = -1;
-        int TechLevel = -1;
-        string MapName = "UNPARSED";
-        string IPAddress1 = "UNPARSED";
-        string IPAddress2 = "UNPARSED";
-        string Ping = "UNPARSED";
-        int CompletionType = -1;
-        int GameDuration = -1;
-        int StartTime = -1;
-        int ProcessorType = -1;
-        int AverageFPS = -1;
-        uint SystemMemory = 0;
-        uint VideoMemory = 0;
-        int GameSpeed = -1;
-        string Version = "UNPARSED";
-        DateTime? GameEXELastWriteTimeUTC = null; // null is value if not parsed
+        public int SDFX = -1;
+        public int GameNumber = -1;
+        public int NumberOfPlayers = -1;
+        public int NumberOfRemainingPlayers = -1;
+        public int IsTournamentGame = -1;
+        public int StartingCredits = -1;
+        public int BasesEnabled = -1;
+        public int OreRegenerates = -1;
+        public int CratesEnabled = -1;
+        public int NumberOfAIPlayers = -1;
+        public int ShroudRegrows = -1;
+        public int CTFEnabled = -1;
+        public int StartingUnits = -1;
+        public int TechLevel = -1;
+        public string MapName = "UNPARSED";
+        public string IPAddress1 = "UNPARSED";
+        public string IPAddress2 = "UNPARSED";
+        public string Ping = "UNPARSED";
+        public int CompletionType = -1;
+        public int GameDuration = -1;
+        public int StartTime = -1;
+        public int ProcessorType = -1;
+        public int AverageFPS = -1;
+        public uint SystemMemory = 0;
+        public uint VideoMemory = 0;
+        public int GameSpeed = -1;
+        public string Version = "UNPARSED";
+        public DateTime? GameEXELastWriteTimeUTC = null; // null is value if not parsed
 
 
         public StatsDumpParser(string FileName)
