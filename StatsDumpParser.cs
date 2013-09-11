@@ -369,12 +369,12 @@ namespace ra303pStatsDumpParser
                     else if (ID == "MEMO")
                     {
                         Read_Garbage();
-                        this.SystemMemory = (uint)this.Read_32Bits();
+                        this.SystemMemory = this.Read_Unsigned_32Bits();
                     }
                     else if (ID == "VIDM")
                     {
                         Read_Garbage();
-                        this.VideoMemory = (uint)this.Read_32Bits();
+                        this.VideoMemory = this.Read_Unsigned_32Bits();
                     }
                     else if (ID == "SPED")
                     {
@@ -545,7 +545,7 @@ namespace ra303pStatsDumpParser
             if (AlignRead == 4) { AlignRead = 0; }
             Bin.ReadBytes(AlignRead); // Read for 4 byte alignment
 
-            Console.WriteLine("Length = {0}, AlignRead = {1}", Length, AlignRead);
+//            Console.WriteLine("Length = {0}, AlignRead = {1}", Length, AlignRead);
             Pos += AlignRead + 4 + Length;
             return RetString;
         }
