@@ -613,26 +613,195 @@ namespace ra303pStatsDumpParser
 
         private BinaryReader mBaseReader;
     }
+
+    public struct CratesCollectedStruct
+    {
+        public int MoneyCrates;
+        public int UnitCrates;
+        public int ParabombCrates;
+        public int HealCrates;
+        public int StealthCrates;
+        public int ExplosionCrates;
+        public int NapalmDeathCrates;
+        public int SquadCrates;
+        public int MapReshroud;
+        public int MapRevealCrates;
+        public int SonarPulseCrates;
+        public int ArmorUpgradeCrates;
+        public int SpeedUpgradeCrates;
+        public int FirepowerUpgradeCrates;
+        public int OneShotNukeCrates;
+        public int TimeQuakeCrates;
+        public int IronCurtainCrates;
+        public int ChronoVortexCrates;
+    };
+
+    public struct PlanesStruct
+    {
+        public int Chinooks;
+        public int BadgeBombers;
+        public int SpyPlanes;
+        public int MIGs;
+        public int YAKs;
+        public int LongBows;
+        public int Hinds;
+    };
+
+    public struct VesselsStruct
+    {
+        public int Submarines;
+        public int Destroyers;
+        public int Cruisers;
+        public int Gunboats;
+        public int MissileSubs;
+        public int HeliCarriers; // Aftermath hidden unit
+    };
+
+    public struct VehiclesStruct
+    {
+        public int MammothTanks;
+        public int HeavyTanks;
+        public int MediumTanks;
+        public int LightTanks;
+        public int APCs;
+        public int MineLayers; // Both Anti-Tank AND Anti-Personnel MineLayers
+        public int Rangers;
+        public int OreTrucks;
+        public int Artilleries;
+        public int MobileRadarJammers;
+        public int MobileGapGenerators;
+        public int MCVs;
+        public int V2RocketLaunchers;
+        public int SupplyTrucks;
+        public int ANT1s;
+        public int ANT2s;
+        public int ANT3s;
+        public int ChronoTanks;
+        public int TeslaTanks;
+        public int MADTanks;
+        public int DemoTrucks;
+        public int PhaseTransports;
+    };
+
+    public struct InfantryStruct
+    {
+        public int RifleInfantries;
+        public int Grenadiers;
+        public int RocketSoldiers;
+        public int Flamethrowers;
+        public int Engineers;
+        public int Tanyas;
+        public int Spies;
+        public int Thieves;
+        public int Medics;
+        public int GNRLs;
+        public int Dogs;
+        public int C1s;
+        public int C2s;
+        public int C3s;
+        public int C4s;
+        public int C5s;
+        public int C6s;
+        public int C7s;
+        public int C8s;
+        public int C9s;
+        public int C10s;
+        public int Einsteins;
+        public int Delphis;
+        public int Chans;
+        public int ShockTroopers;
+        public int Mechanics;
+    };
+
+    public struct BuildingsStructs
+    {
+        public int AlliedTechCenters; //1
+        public int IronCurtains; //2
+        public int WarFactories; //3
+        public int Chronospheres; //4
+        public int Pillboxes; //5
+        public int CameoPillboxes; //6
+        public int RadarDomes; //7
+        public int GapGenerators; //8
+        public int Turrets; //9
+        public int AAGuns; //10
+        public int FlameTowers; //11
+        public int ConstructionYards; //12
+        public int Refineries; //13
+        public int OreSilos; //14
+        public int Helipads; //15
+        public int SamSites; //16
+        public int Airfields; //17
+        public int PowerPlants; //18
+        public int AdvancedPowerPlants; //19
+        public int SovietTechCenters; // 20
+        public int Hospitals; //21
+        public int SovietBarracks; //22
+        public int AlliesBarracks; //23
+        public int Kennels; //24
+        public int ServiceDepots; //25
+        public int BIOResearchFacilities; // 26
+        public int TechnologyCenters; // 27
+        public int Shipyards; // Allies
+        public int Subpens; // Soviets
+        public int MissileSilos; // 30
+        public int ForwardCommandPosts; // 31
+        public int TeslaCoils; // 32
+        public int FakeWarFactories; // 33
+        public int FakeConstructionYards; // 34
+        public int FakeShipyards; // 35
+        public int FakeSubpens; // Hidden Red alert unit
+        public int FakeRadarDomes; // 37
+        public int Sandbags; // 38
+        public int ChainLinkFences; // 39
+        public int ConcreteWalls; // 40
+        public int BarbwireFences; // 41
+        public int WoodenFences; // 42
+        public int WireFences; // 43
+        public int AntiTankMines; // 44
+        public int AntiPersonnelMines; // 45
+        public int V1s; // 46
+        public int V2s; // 47
+        public int V3s; // 48
+        public int V4s; // 49
+        public int V5s; // 50
+        public int V6s; // 51
+        public int V7s; // 52
+        public int V8s; // 53
+        public int V9s; // 54
+        public int V10s; // 55
+        public int V11s; // 56
+        public int V12s; // 57
+        public int V13s; // 58
+        public int V14s; // 59
+        public int V15s; // 60
+        public int V16s; // 61
+        public int V17s; // 62
+        public int V18s; // 63
+        public int V19s; // 64
+        public int V20s; // 65
+        public int V21s; // 66
+        public int V22s; // 67
+        public int V23s; // 68
+        public int V24s; // 69
+        public int V25s; // 70
+        public int V26s; // 71
+        public int V27s; // 72
+        public int V28s; // 73
+        public int V29s; // 74
+        public int V30s; // 75
+        public int V31s; // 76
+        public int V32s; // 77
+        public int V33s; // 78
+        public int V34s; // 79
+        public int V35s; // 80
+        public int V36s; // 81
+        public int V37s; // 82
+        public int Barrels; // 83
+        public int BarrelsGroups; // 84
+        public int AntQueens; // 85
+        public int Larva1s; // 86
+        public int Larva2s; // 87
+    }
 }
 
-public struct CratesCollectedStruct
-{
-    public int MoneyCrates;
-    public int UnitCrates;
-    public int ParabombCrates;
-    public int HealCrates;
-    public int StealthCrates;
-    public int ExplosionCrates;
-    public int NapalmDeathCrates;
-    public int SquadCrates;
-    public int MapReshroud;
-    public int MapRevealCrates;
-    public int SonarPulseCrates;
-    public int ArmorUpgradeCrates;
-    public int SpeedUpgradeCrates;
-    public int FirepowerUpgradeCrates;
-    public int OneShotNukeCrates;
-    public int TimeQuakeCrates;
-    public int IronCurtainCrates;
-    public int ChronoVortexCrates;
-};
