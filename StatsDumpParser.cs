@@ -461,6 +461,195 @@ namespace ra303pStatsDumpParser
             return Crates;
         }
 
+        public VesselsStruct Parse_Vessels()
+        {
+            VesselsStruct Vessels = new VesselsStruct();
+
+            Vessels.Submarines = this.Read_32Bits();
+            Vessels.Destroyers = this.Read_32Bits();
+            Vessels.Cruisers = this.Read_32Bits();
+            Vessels.Gunboats = this.Read_32Bits();
+            Vessels.MissileSubs = this.Read_32Bits();
+            Vessels.HeliCarriers = this.Read_32Bits(); // Aftermath hidden unit
+
+            return Vessels;
+        }
+
+        public PlanesStruct Parse_Planes()
+        {
+            PlanesStruct Planes = new PlanesStruct();
+
+            Planes.Chinooks = Read_32Bits();
+            Planes.BadgeBombers = Read_32Bits();
+            Planes.SpyPlanes = Read_32Bits();
+            Planes.MIGs = Read_32Bits();
+            Planes.YAKs = Read_32Bits();
+            Planes.LongBows = Read_32Bits();
+            Planes.Hinds = Read_32Bits();
+
+            return Planes;
+        }
+
+        public BuildingsStruct Parse_Buildings()
+        {
+            BuildingsStruct Buildings = new BuildingsStruct();
+
+            Buildings.AlliedTechCenters = Read_32Bits();
+            Buildings.IronCurtains = Read_32Bits();
+            Buildings.WarFactories = Read_32Bits();
+            Buildings.Chronospheres = Read_32Bits();
+            Buildings.Pillboxes = Read_32Bits();
+            Buildings.CameoPillboxes = Read_32Bits();
+            Buildings.RadarDomes = Read_32Bits();
+            Buildings.GapGenerators = Read_32Bits();
+            Buildings.Turrets = Read_32Bits();
+            Buildings.AAGuns = Read_32Bits();
+            Buildings.FlameTowers = Read_32Bits();
+            Buildings.ConstructionYards = Read_32Bits();
+            Buildings.Refineries = Read_32Bits();
+            Buildings.OreSilos = Read_32Bits();
+            Buildings.Helipads = Read_32Bits();
+            Buildings.SamSites = Read_32Bits();
+            Buildings.Airfields = Read_32Bits();
+            Buildings.PowerPlants = Read_32Bits();
+            Buildings.AdvancedPowerPlants = Read_32Bits();
+            Buildings.SovietTechCenters = Read_32Bits();
+            Buildings.Hospitals = Read_32Bits();
+            Buildings.SovietBarracks = Read_32Bits();
+            Buildings.AlliesBarracks = Read_32Bits();
+            Buildings.Kennels = Read_32Bits();
+            Buildings.ServiceDepots = Read_32Bits();
+            Buildings.BIOResearchFacilities = Read_32Bits();
+            Buildings.TechnologyCenters = Read_32Bits();
+            Buildings.Shipyards = Read_32Bits();
+            Buildings.Subpens = Read_32Bits();
+            Buildings.MissileSilos = Read_32Bits();
+            Buildings.ForwardCommandPosts = Read_32Bits();
+            Buildings.TeslaCoils = Read_32Bits();
+            Buildings.FakeWarFactories = Read_32Bits();
+            Buildings.FakeConstructionYards = Read_32Bits();
+            Buildings.FakeShipyards = Read_32Bits();
+            Buildings.FakeSubpens = Read_32Bits();
+            Buildings.FakeRadarDomes = Read_32Bits();
+            Buildings.Sandbags = Read_32Bits();
+            Buildings.ChainLinkFences = Read_32Bits();
+            Buildings.ConcreteWalls = Read_32Bits();
+            Buildings.BarbwireFences = Read_32Bits();
+            Buildings.WoodenFences = Read_32Bits();
+            Buildings.WireFences = Read_32Bits();
+            Buildings.AntiTankMines = Read_32Bits();
+            Buildings.AntiPersonnelMines = Read_32Bits();
+            Buildings.V1s = Read_32Bits();
+            Buildings.V2s = Read_32Bits();
+            Buildings.V3s = Read_32Bits();
+            Buildings.V4s = Read_32Bits();
+            Buildings.V5s = Read_32Bits();
+            Buildings.V6s = Read_32Bits();
+            Buildings.V7s = Read_32Bits();
+            Buildings.V8s = Read_32Bits();
+            Buildings.V9s = Read_32Bits();
+            Buildings.V10s = Read_32Bits();
+            Buildings.V11s = Read_32Bits();
+            Buildings.V12s = Read_32Bits();
+            Buildings.V13s = Read_32Bits();
+            Buildings.V14s = Read_32Bits();
+            Buildings.V15s = Read_32Bits();
+            Buildings.V16s = Read_32Bits();
+            Buildings.V17s = Read_32Bits();
+            Buildings.V18s = Read_32Bits();
+            Buildings.V19s = Read_32Bits();
+            Buildings.V20s = Read_32Bits();
+            Buildings.V21s = Read_32Bits();
+            Buildings.V22s = Read_32Bits();
+            Buildings.V23s = Read_32Bits();
+            Buildings.V24s = Read_32Bits();
+            Buildings.V25s = Read_32Bits();
+            Buildings.V26s = Read_32Bits();
+            Buildings.V27s = Read_32Bits();
+            Buildings.V28s = Read_32Bits();
+            Buildings.V29s = Read_32Bits();
+            Buildings.V30s = Read_32Bits();
+            Buildings.V31s = Read_32Bits();
+            Buildings.V32s = Read_32Bits();
+            Buildings.V33s = Read_32Bits();
+            Buildings.V34s = Read_32Bits();
+            Buildings.V35s = Read_32Bits();
+            Buildings.V36s = Read_32Bits();
+            Buildings.V37s = Read_32Bits();
+            Buildings.Barrels = Read_32Bits();
+            Buildings.BarrelsGroups = Read_32Bits();
+            Buildings.AntQueens = Read_32Bits();
+            Buildings.Larva1s = Read_32Bits();
+            Buildings.Larva2s = Read_32Bits();
+
+            return Buildings;
+        }
+
+        public VehiclesStruct Parse_Vehicles()
+        {
+            VehiclesStruct Vehicles = new VehiclesStruct();
+
+            Vehicles.MammothTanks = Read_32Bits();
+            Vehicles.HeavyTanks = Read_32Bits();
+            Vehicles.MediumTanks = Read_32Bits();
+            Vehicles.LightTanks = Read_32Bits();
+            Vehicles.APCs = Read_32Bits();
+            Vehicles.MineLayers = Read_32Bits();
+            Vehicles.Rangers = Read_32Bits();
+            Vehicles.OreTrucks = Read_32Bits();
+            Vehicles.Artilleries = Read_32Bits();
+            Vehicles.MobileRadarJammers = Read_32Bits();
+            Vehicles.MobileGapGenerators = Read_32Bits();
+            Vehicles.MCVs = Read_32Bits();
+            Vehicles.V2RocketLaunchers = Read_32Bits();
+            Vehicles.SupplyTrucks = Read_32Bits();
+            Vehicles.ANT1s = Read_32Bits();
+            Vehicles.ANT2s = Read_32Bits();
+            Vehicles.ANT3s = Read_32Bits();
+            Vehicles.ChronoTanks = Read_32Bits();
+            Vehicles.TeslaTanks = Read_32Bits();
+            Vehicles.MADTanks = Read_32Bits();
+            Vehicles.DemoTrucks = Read_32Bits();
+            Vehicles.PhaseTransports = Read_32Bits();
+
+            return Vehicles;
+        }
+
+        public InfantryStruct Parse_Infantry()
+        {
+            InfantryStruct Infantry = new InfantryStruct();
+
+            Infantry.RifleInfantries = Read_32Bits();
+            Infantry.Grenadiers = Read_32Bits();
+            Infantry.RocketSoldiers = Read_32Bits();
+            Infantry.Flamethrowers = Read_32Bits();
+            Infantry.Engineers = Read_32Bits();
+            Infantry.Tanyas = Read_32Bits();
+            Infantry.Spies = Read_32Bits();
+            Infantry.Thieves = Read_32Bits();
+            Infantry.Medics = Read_32Bits();
+            Infantry.GNRLs = Read_32Bits();
+            Infantry.Dogs = Read_32Bits();
+            Infantry.C1s = Read_32Bits();
+            Infantry.C2s = Read_32Bits();
+            Infantry.C3s = Read_32Bits();
+            Infantry.C4s = Read_32Bits();
+            Infantry.C5s = Read_32Bits();
+            Infantry.C6s = Read_32Bits();
+            Infantry.C7s = Read_32Bits();
+            Infantry.C8s = Read_32Bits();
+            Infantry.C9s = Read_32Bits();
+            Infantry.C10s = Read_32Bits();
+            Infantry.Einsteins = Read_32Bits();
+            Infantry.Delphis = Read_32Bits();
+            Infantry.Chans = Read_32Bits();
+            Infantry.ShockTroopers = Read_32Bits();
+            Infantry.Mechanics = Read_32Bits();
+
+            return Infantry;
+        }
+
+
         public void Parse_Money_Harvested_Info(string ID, int Money)
         {
             int PlayerNumber = Get_Player_Number_From_ID(ID);
@@ -713,7 +902,7 @@ namespace ra303pStatsDumpParser
         public int Mechanics;
     };
 
-    public struct BuildingsStructs
+    public struct BuildingsStruct
     {
         public int AlliedTechCenters; //1
         public int IronCurtains; //2
