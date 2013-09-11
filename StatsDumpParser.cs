@@ -25,6 +25,32 @@ namespace ra303pStatsDumpParser
         string[] PlayerNames;
         string[] PlayerSides;
         CratesCollectedStruct[] PlayerCratesCollected;
+
+        // Left on battlefield
+        VehiclesStruct[] PlayerVehiclesLeft;
+        InfantryStruct[] PlayerInfantryLeft;
+        PlanesStruct[] PlayerPlanesLeft;
+        BuildingsStruct[] PlayerBuildingsLeft;
+        VesselsStruct[] PlayerVesselsLeft;
+
+        // Bought
+        VehiclesStruct[] PlayerVehiclesBought;
+        InfantryStruct[] PlayerInfantryBought;
+        PlanesStruct[] PlayerPlanesBought;
+        BuildingsStruct[] PlayerBuildingsBought;
+        VesselsStruct[] PlayerVesselsBought;
+
+        // Killed
+        VehiclesStruct[] PlayerVehiclesKilled;
+        InfantryStruct[] PlayerInfantryKilled;
+        PlanesStruct[] PlayerPlanesKilled;
+        BuildingsStruct[] PlayerBuildingsKilled;
+        VesselsStruct[] PlayerVesselsKilled;
+
+        // Buildings captured
+        BuildingsStruct[] PlayerBuildingsCaptured;
+
+
         int SDFX = -1;
         int GameNumber = -1;
         int NumberOfPlayers = -1;
@@ -57,14 +83,40 @@ namespace ra303pStatsDumpParser
 
         public StatsDumpParser(string FileName)
         {
+            // Init
             PlayerMoneyHarvested = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerCredits = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerQuitStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerColors = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
-            PlayerCratesCollected = new CratesCollectedStruct[8];
             PlayerSides = new string[8];
             PlayerNames = new string[8];
+            PlayerCratesCollected = new CratesCollectedStruct[8];
 
+            // Left on battlefield
+            PlayerVehiclesLeft = new VehiclesStruct[8];
+            PlayerInfantryLeft = new InfantryStruct[8];
+            PlayerPlanesLeft = new PlanesStruct[8];
+            PlayerBuildingsLeft = new BuildingsStruct[8];
+            PlayerVesselsLeft = new VesselsStruct[8];
+
+            // Bought
+            PlayerVehiclesBought = new VehiclesStruct[8];
+            PlayerInfantryBought = new InfantryStruct[8];
+            PlayerPlanesBought = new PlanesStruct[8];
+            PlayerBuildingsBought = new BuildingsStruct[8];
+            PlayerVesselsBought = new VesselsStruct[8];
+
+            // Killed
+            PlayerVehiclesKilled = new VehiclesStruct[8];
+            PlayerInfantryKilled = new InfantryStruct[8];
+            PlayerPlanesKilled = new PlanesStruct[8];
+            PlayerBuildingsKilled = new BuildingsStruct[8];
+            PlayerVesselsKilled = new VesselsStruct[8];
+
+            // Buildings captured
+            PlayerBuildingsCaptured = new BuildingsStruct[8];
+
+            // Parse the file
             this.Parse_Stats_Dump_File(FileName);
         }
 
@@ -98,9 +150,89 @@ namespace ra303pStatsDumpParser
                         Parse_Name_Info(ID);
                     }
 
-                    if (ID.Contains("COL"))
+                    else if (ID.Contains("COL"))
                     {
                         Parse_Color_Info(ID);
+                    }
+
+                    else if (ID.Contains("UNL"))
+                    {
+                        Parse_Vehicles_Stuff(ID, ref this.PlayerVehiclesLeft);
+                    }
+
+                    else if (ID.Contains("UNB"))
+                    {
+                        Parse_Vehicles_Stuff(ID, ref this.PlayerVehiclesBought);
+                    }
+
+                    else if (ID.Contains("UNK"))
+                    {
+                        Parse_Vehicles_Stuff(ID, ref this.PlayerVehiclesKilled);
+                    }
+
+                    else if (ID.Contains("INL"))
+                    {
+                        Parse_Infantry_Stuff(ID, ref this.PlayerInfantryLeft);
+                    }
+
+                    else if (ID.Contains("INB"))
+                    {
+                        Parse_Infantry_Stuff(ID, ref this.PlayerInfantryBought);
+                    }
+
+                    else if (ID.Contains("INK"))
+                    {
+                        Parse_Infantry_Stuff(ID, ref this.PlayerInfantryKilled);
+                    }
+
+                    else if (ID.Contains("PLL"))
+                    {
+                        Parse_Planes_Stuff(ID, ref this.PlayerPlanesLeft);
+                    }
+
+                    else if (ID.Contains("PLB"))
+                    {
+                        Parse_Planes_Stuff(ID, ref this.PlayerPlanesBought);
+                    }
+
+                    else if (ID.Contains("PLK"))
+                    {
+                        Parse_Planes_Stuff(ID, ref this.PlayerPlanesKilled);
+                    }
+
+                    else if (ID.Contains("VSL"))
+                    {
+                        Parse_Vessels_Stuff(ID, ref this.PlayerVesselsLeft);
+                    }
+
+                    else if (ID.Contains("VSB"))
+                    {
+                        Parse_Vessels_Stuff(ID, ref this.PlayerVesselsBought);
+                    }
+
+                    else if (ID.Contains("VSK"))
+                    {
+                        Parse_Vessels_Stuff(ID, ref this.PlayerVesselsKilled);
+                    }
+
+                    else if (ID.Contains("BLL"))
+                    {
+                        Parse_Buildings_Stuff(ID, ref this.PlayerBuildingsLeft);
+                    }
+
+                    else if (ID.Contains("BLB"))
+                    {
+                        Parse_Buildings_Stuff(ID, ref this.PlayerBuildingsBought);
+                    }
+
+                    else if (ID.Contains("BLK"))
+                    {
+                        Parse_Buildings_Stuff(ID, ref this.PlayerBuildingsKilled);
+                    }
+
+                    else if (ID.Contains("BLC"))
+                    {
+                        Parse_Buildings_Stuff(ID, ref this.PlayerBuildingsCaptured);
                     }
 
                     else if (ID.Contains("SID"))
@@ -349,6 +481,56 @@ namespace ra303pStatsDumpParser
             CratesCollectedStruct Crates = Parse_Crates_Collected_For_Player();
 
             this.PlayerCratesCollected[PlayerNum - 1] = Crates;
+        }
+
+        public void Parse_Vehicles_Stuff(string ID, ref VehiclesStruct[] VehArray)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_32Bits(); // Read garbage
+
+            VehiclesStruct Vehicles = Parse_Vehicles();
+
+            VehArray[PlayerNum - 1] = Vehicles;
+        }
+
+        public void Parse_Vessels_Stuff(string ID, ref VesselsStruct[] VesArray)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_32Bits(); // Read garbage
+
+            VesselsStruct Vessels = Parse_Vessels();
+
+            VesArray[PlayerNum - 1] = Vessels;
+        }
+
+        public void Parse_Infantry_Stuff(string ID, ref InfantryStruct[] InfArray)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_32Bits(); // Read garbage
+
+            InfantryStruct Infantry = Parse_Infantry();
+
+            InfArray[PlayerNum - 1] = Infantry;
+        }
+
+        public void Parse_Buildings_Stuff(string ID, ref BuildingsStruct[] BuildingsArray)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_32Bits(); // Read garbage
+
+            BuildingsStruct Buildings = Parse_Buildings();
+
+            BuildingsArray[PlayerNum - 1] = Buildings;
+        }
+
+        public void Parse_Planes_Stuff(string ID, ref PlanesStruct[] PlanesArray)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_32Bits(); // Read garbage
+
+            PlanesStruct Planes = Parse_Planes();
+
+            PlanesArray[PlayerNum - 1] = Planes;
         }
 
         public string Parse_String()
