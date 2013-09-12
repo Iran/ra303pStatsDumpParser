@@ -536,7 +536,7 @@ namespace ra303pStatsDumpParser
         public string Parse_String()
         {
             byte[] Bytes = Bin.ReadBytes(4);
-            int Length = (int)Bytes[3];
+            int Length = ((int)Bytes[3]) - 1;
 
             byte[] StringBytes = Bin.ReadBytes(Length);
             string RetString = System.Text.Encoding.Default.GetString(StringBytes);
@@ -555,7 +555,9 @@ namespace ra303pStatsDumpParser
             Read_Garbage();
 
 
-            byte[] StringBytes = Bin.ReadBytes(4); Pos += 4;
+            byte[] StringBytes = Bin.ReadBytes(3);
+            Bin.ReadBytes(1);
+            Pos += 4;
             string RetString = System.Text.Encoding.Default.GetString(StringBytes);
             return RetString;
         }
