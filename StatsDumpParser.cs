@@ -420,7 +420,7 @@ namespace ra303pStatsDumpParser
         {
             Console.WriteLine("Dead state for player 2 = {0}", PlayerDeadStates[1]);
             Console.WriteLine("Spectator state for player 2 = {0}", PlayerSpectatorStates[1]);
-            Console.WriteLine("Alliances bitfield for player 3 = {0}, hex = {1:X}", Get_Int_Binary_String(PlayerAlliancesBitFields[2]), PlayerAlliancesBitFields[2] );
+            Console.WriteLine("Alliances bitfield for player 3 = {0}, hex = {1:X}", Get_Alliances_String(PlayerAlliancesBitFields[2]), PlayerAlliancesBitFields[2] );
             Console.WriteLine("\tPlayer allied with house Neutral: {0}", (PlayerAlliancesBitFields[2] & (1 << 10)) != 0 ? "True" : "False");
             Console.WriteLine("DumpSize = {0}", this.DumpSize);
             Console.WriteLine("ReportedSize = {0}", this.ReportedSize);
@@ -931,26 +931,26 @@ namespace ra303pStatsDumpParser
             }
         }
 
-        static string Get_Int_Binary_String(int n)
+        static string Get_Alliances_String(int BitField)
         {
-	        char[] b = new char[32];
-	        int pos = 31;
-	        int i = 0;
+            if (BitField == -1) { return ""; }
 
-    	    while (i < 32)
-	        {
-	            if ((n & (1 << i)) != 0)
-	            {
-		            b[pos] = '1';
-	            }
-	            else
-	            {
-		            b[pos] = '0';
-	             }
-                pos--;
-                i++;
+            string str = "";
+
+            for (int i = 12; i < 20; i++)
+            {
+                if ((BitField & (1 << i)) != 0)
+                {
+                    str += String.Format("{0}|", i - 11);
+                }
             }
-	        return new string(b);
+
+            if (str.Length > 1)
+            {
+               str =  str.Remove(str.Length - 1);
+            }
+
+            return str;
         }
     }
 
