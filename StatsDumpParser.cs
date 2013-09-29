@@ -20,6 +20,9 @@ namespace ra303pStatsDumpParser
         public int[] PlayerCredits;
         public int[] PlayerQuitStates;
         public int[] PlayerColors;
+        public int[] PlayerAlliancesBitFields;
+        public int[] PlayerSpectatorStates; // -1 = unparsed, 0 = not spectator, 1 = spectator
+        public int[] PlayerDeadStates; // -1 = unparsed, 0 = not dead, 1 = dead
         public string[] PlayerNames;
         public string[] PlayerSides;
         public CratesCollectedStruct[] PlayerCratesCollected;
@@ -86,6 +89,9 @@ namespace ra303pStatsDumpParser
             PlayerCredits = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerQuitStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerColors = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayerAlliancesBitFields = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayerSpectatorStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayerDeadStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerSides = new string[8];
             PlayerNames = new string[8];
             PlayerCratesCollected = new CratesCollectedStruct[8];
@@ -151,6 +157,21 @@ namespace ra303pStatsDumpParser
                     else if (ID.Contains("COL"))
                     {
                         Parse_Color_Info(ID);
+                    }
+
+                    else if (ID.Contains("ALY"))
+                    {
+                        Parse_Alliances_Info(ID);
+                    }
+
+                    else if (ID.Contains("SPC"))
+                    {
+                        Parse_Spectator_State_Info(ID);
+                    }
+
+                    else if (ID.Contains("DED"))
+                    {
+                        Parse_Dead_State_Info(ID);
                     }
 
                     else if (ID.Contains("UNL"))
@@ -397,6 +418,10 @@ namespace ra303pStatsDumpParser
 
         public void Print_Parsed_Data()
         {
+            Console.WriteLine("Dead state for player 2 = {0}", PlayerDeadStates[1]);
+            Console.WriteLine("Spectator state for player 2 = {0}", PlayerSpectatorStates[1]);
+            Console.WriteLine("Alliances bitfield for player 3 = {0}, hex = {1:X}", Get_Int_Binary_String(PlayerAlliancesBitFields[2]), PlayerAlliancesBitFields[2] );
+            Console.WriteLine("\tPlayer allied with house Neutral: {0}", (PlayerAlliancesBitFields[2] & (1 << 10)) != 0 ? "True" : "False");
             Console.WriteLine("DumpSize = {0}", this.DumpSize);
             Console.WriteLine("ReportedSize = {0}", this.ReportedSize);
             Console.WriteLine("SDFX = {0}", this.SDFX);
@@ -455,6 +480,30 @@ namespace ra303pStatsDumpParser
             long TimeLong = FileTime.FileTime_To_Long(FTime);
             this.GameEXELastWriteTimeUTC = DateTime.FromFileTimeUtc(TimeLong);
 
+        }
+
+        public void Parse_Alliances_Info(string ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayerAlliancesBitFields[PlayerNum - 1] = this.Read_32Bits();
+        }
+
+        public void Parse_Dead_State_Info(string ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayerDeadStates[PlayerNum - 1] = this.Read_32Bits();
+        }
+
+        public void Parse_Spectator_State_Info(string ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayerSpectatorStates[PlayerNum - 1] = this.Read_32Bits();
         }
 
         public void Parse_Color_Info(string ID)
@@ -880,6 +929,28 @@ namespace ra303pStatsDumpParser
                 }
                 PlayerNumber++;
             }
+        }
+
+        static string Get_Int_Binary_String(int n)
+        {
+	        char[] b = new char[32];
+	        int pos = 31;
+	        int i = 0;
+
+    	    while (i < 32)
+	        {
+	            if ((n & (1 << i)) != 0)
+	            {
+		            b[pos] = '1';
+	            }
+	            else
+	            {
+		            b[pos] = '0';
+	             }
+                pos--;
+                i++;
+            }
+	        return new string(b);
         }
     }
 

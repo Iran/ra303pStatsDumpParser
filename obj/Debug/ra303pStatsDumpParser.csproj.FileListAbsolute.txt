@@ -1,6 +1,6 @@
-C:\Users\Maikel\Desktop\ra303pStatsDumpParser\bin\Debug\ra303pStatsDumpReader.exe.config
 C:\Users\Maikel\Desktop\ra303pStatsDumpParser\obj\Debug\ra303pStatsDumpReader.exe
 C:\Users\Maikel\Desktop\ra303pStatsDumpParser\obj\Debug\ra303pStatsDumpReader.pdb
 C:\Users\Maikel\Desktop\ra303pStatsDumpParser\obj\Debug\ra303pStatsDumpParser.csprojResolveAssemblyReference.cache
-C:\Users\Maikel\Desktop\ra303pStatsDumpParser\bin\Debug\ra303pStatsDumpReader.exe
-C:\Users\Maikel\Desktop\ra303pStatsDumpParser\bin\Debug\ra303pStatsDumpReader.pdb
+C:\Users\Maikel\Desktop\ra303pStatsDumpParser\ra303pStatsDumpReader.exe.config
+C:\Users\Maikel\Desktop\ra303pStatsDumpParser\ra303pStatsDumpReader.exe
+C:\Users\Maikel\Desktop\ra303pStatsDumpParser\ra303pStatsDumpReader.pdb
