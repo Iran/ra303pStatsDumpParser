@@ -23,6 +23,9 @@ namespace ra303pStatsDumpParser
         public int[] PlayerAlliancesBitFields;
         public int[] PlayerSpectatorStates; // -1 = unparsed, 0 = not spectator, 1 = spectator
         public int[] PlayerDeadStates; // -1 = unparsed, 0 = not dead, 1 = dead
+        public int[] PlayersSpawnLocation; // -1 = unparsed
+        public int[] PlayersConnectionLost; // -1 = unparsed, 0 = not lost, 1 = lost
+        public int[] PlayersResigned; // -1 = unparsed, 0 = didn't resign, 1 = did resign
         public string[] PlayerNames;
         public string[] PlayerSides;
         public CratesCollectedStruct[] PlayerCratesCollected;
@@ -92,6 +95,9 @@ namespace ra303pStatsDumpParser
             PlayerAlliancesBitFields = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerSpectatorStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerDeadStates = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayersSpawnLocation = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayersConnectionLost = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+            PlayersResigned = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
             PlayerSides = new string[8];
             PlayerNames = new string[8];
             PlayerCratesCollected = new CratesCollectedStruct[8];
@@ -148,6 +154,21 @@ namespace ra303pStatsDumpParser
                 {
                     Byte[] Bytes = Bin.ReadBytes(4); Pos += 4;
                     string ID = System.Text.Encoding.Default.GetString(Bytes);
+
+                    if (ID.Contains("RSG"))
+                    {
+                        Parse_Resigned_Info(ID);
+                    }
+
+                    if (ID.Contains("CON"))
+                    {
+                        Parse_Connection_Lost_Info(ID);
+                    }
+
+                    if (ID.Contains("SPA"))
+                    {
+                        Parse_Spawn_Location_Info(ID);
+                    }
 
                     if (ID.Contains("NAM"))
                     {
@@ -457,6 +478,9 @@ namespace ra303pStatsDumpParser
             this.Print_Player_Array(this.PlayerCredits, "Credits for player {0} = {1}");
             this.Print_Player_Array(this.PlayerQuitStates, "Quit state for player {0} = {1}");
             this.Print_Player_Array(this.PlayerColors, "Color for player {0} = {1}");
+            this.Print_Player_Array(this.PlayersResigned, "Resigned for player {0} = {1}");
+            this.Print_Player_Array(this.PlayersSpawnLocation, "SpawnLocation for player {0} = {1}");
+            this.Print_Player_Array(this.PlayersConnectionLost, "ConnectionLost for player {0} = {1}");
             this.Print_Player_String_Array(this.PlayerSides, "Side for player {0} = {1}");
             this.Print_Player_String_Array(this.PlayerNames, "Name for player {0} = {1}");
         }
@@ -665,7 +689,30 @@ namespace ra303pStatsDumpParser
             int PlayerNum = Get_Player_Number_From_ID(ID);
 
             this.PlayerNames[PlayerNum - 1] = Parse_String();
+        }
 
+        public void Parse_Spawn_Location_Info(String ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayersSpawnLocation[PlayerNum - 1] = this.Read_32Bits();
+        }
+
+        public void Parse_Resigned_Info(String ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayersResigned[PlayerNum - 1] = this.Read_32Bits();
+        }
+
+        public void Parse_Connection_Lost_Info(String ID)
+        {
+            int PlayerNum = Get_Player_Number_From_ID(ID);
+            this.Read_Garbage();
+
+            this.PlayersConnectionLost[PlayerNum - 1] = this.Read_32Bits();
         }
 
         public CratesCollectedStruct Parse_Crates_Collected_For_Player()
